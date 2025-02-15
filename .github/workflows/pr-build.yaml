@@ -28,6 +28,6 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         context: .
-        file: ./dockerfile
+        file: ./Dockerfile
         push: false
         tags: ${{ env.DOCKERHUB_ORG }}/${{ env.IMAGE_NAME }}:latest
