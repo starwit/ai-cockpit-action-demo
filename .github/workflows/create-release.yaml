@@ -34,6 +34,21 @@ jobs:
       with:
         fetch-depth: '0'
 
+    - name: Commit and push tag
+      run: |
+        git config --global user.email "code@starwit.de"
+        git config --global user.name "Starwit"
+        git add .
+        modifications=$(git status | grep "modified" || true)
+        if [ ! -z "$modifications" ]
+        then
+          echo "modifications found: $modifications"
+          git commit -m "Bumping version to ${{ env.RELEASE_VERSION }}"
+          git push
+        fi
+      env:
+         CI: false
+         
     - name: Get tag name
       run: |
         echo "TAG=$( git describe --abbrev=0 )" >> $GITHUB_ENV
@@ -60,6 +75,6 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         context: .
-        file: ./dockerfile
+        file: ./Dockerfile
         push: true
         tags: ${{ env.DOCKERHUB_ORG }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
