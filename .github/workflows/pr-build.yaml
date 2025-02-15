@@ -7,6 +7,12 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+env:
+  RELEASE_VERSION: ${{ github.event.inputs.release-version }}
+  IMAGE_NAME: ai_cockpit_action_demo
+  DOCKERHUB_USERNAME: starwit
+  DOCKERHUB_ORG: starwitorg  
+
 jobs:
   build:
     name: "Build Docker image"
