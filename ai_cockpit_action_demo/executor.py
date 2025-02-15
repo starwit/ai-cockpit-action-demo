@@ -1,6 +1,7 @@
 
 from datetime import datetime
 from models import Execution
+from models import Execution_status
 from models import Action
 import random
 
@@ -21,8 +22,6 @@ def setup():
         action.executions = []
 
 def execute_action(id):
-    print(actions)
-    print(id)
     action = actions[int(id)]
     # check if an action is already running
     if not action.executions:
@@ -31,26 +30,26 @@ def execute_action(id):
         execution = Execution()
         execution.id = 1
         execution.name = action.name
-        execution.status = "EXECUTING"
+        execution.status = Execution_status.EXECUTING
         execution.triggeredAt = datetime.now()
         action.executions.append(execution)
         return True
     else:
         # check if the action is already running
         execution = action.executions[-1]
-        if execution.status == "EXECUTING":
+        if execution.status == Execution_status.EXECUTING:
             # action is already running, random choice, to finish
             runtime = datetime.now() - execution.triggeredAt
             print("runtime: " + str(runtime))
             if runtime.total_seconds() > minimum_execution_time and bool(random.getrandbits(1)):
                 # action is finished
-                execution.status = "FINISHED"
+                execution.status = Execution_status.FINISHED
                 execution.finishedAt = datetime.now()
                 # create a new execution
                 execution = Execution()
                 execution.id = len(action.executions) + 1
                 execution.name = action.name
-                execution.status = "EXECUTING"
+                execution.status = Execution_status.EXECUTING
                 execution.triggeredAt = datetime.now()
                 action.executions.append(execution)
                 return True
@@ -60,7 +59,7 @@ def execute_action(id):
             execution = Execution()
             execution.id = len(action.executions) + 1
             execution.name = action.name
-            execution.status = "EXECUTING"
+            execution.status = Execution_status.EXECUTING
             execution.triggeredAt = datetime.now()
             action.executions.append(execution)
             return True
@@ -69,9 +68,9 @@ def check_if_finished():
     for action in actions:
         if action.executions:
             execution = action.executions[-1]
-            if execution.status == "EXECUTING":
+            if execution.status == Execution_status.EXECUTING:
                 runtime = datetime.now() - execution.triggeredAt
                 if runtime.total_seconds() > minimum_execution_time and bool(random.getrandbits(1)):
                     # action is finished
-                    execution.status = "FINISHED"
+                    execution.status = Execution_status.FINISHED
                     execution.finishedAt = datetime.now()

@@ -4,12 +4,14 @@ from typing import List
 from fastapi import FastAPI
 from fastapi.responses import Response
 
-from models import Execution
+import os
+
 from models import Action
+from models import Config
 
 import executor
 
-contextPathBase = "/excecutor"
+config = Config()
 
 app = FastAPI(
     title='Executor Service',
@@ -18,22 +20,30 @@ app = FastAPI(
     servers=[{'url': 'http://localhost:8000'}],
 )
 
-@app.get(contextPathBase + '/action', response_model=List[Action], description="Lists all available actions")
+@app.get(config.contextPathBase + '/action', response_model=List[Action], description="Lists all available actions")
 def list_action() -> List[Action]:
     executor.check_if_finished()
     return executor.actions
 
-@app.get(contextPathBase + '/action/{id}', description="Triggers a new execution for action, false if action is still executing")
+@app.get(config.contextPathBase + '/action/{id}', description="Triggers a new execution for action, false if action is still executing")
 def execute_action(id) -> bool:
     return executor.execute_action(id)
 
-@app.get(contextPathBase + "/healthcheck")
+@app.get(config.contextPathBase + "/healthcheck")
 async def healthcheck():
     return Response()
 
+def setup_config():
+    config.contextPathBase = os.environ.get('CONTEXT_PATH', '/excecutor')
+    config.mode = os.environ.get('MODE', 'EMULATED')
+    config.minimum_execution_time = os.environ.get('MINIMUM_EXECUTION_TIME', 5)
+    config.print()
+
 def main():
+    setup_config()
+    executor.setup()
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
-    executor.setup()
+
 
 main()
