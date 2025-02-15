@@ -39,16 +39,12 @@ jobs:
         git config --global user.email "code@starwit.de"
         git config --global user.name "Starwit"
         git add .
-        modifications=$(git status | grep "modified" || true)
-        if [ ! -z "$modifications" ]
-        then
-          echo "modifications found: $modifications"
-          git commit -m "Bumping version to ${{ env.RELEASE_VERSION }}"
-          git push
-        fi
+        echo "modifications found: $modifications"
+        git commit -m "Bumping version to ${{ env.RELEASE_VERSION }}"
+        git push
       env:
          CI: false
-         
+
     - name: Get tag name
       run: |
         echo "TAG=$( git describe --abbrev=0 )" >> $GITHUB_ENV
