@@ -18,7 +18,7 @@ Service is written in Python and packaged in a Docker container. It is using Poe
     uvicorn ai_cockpit_action_demo.main:app --reload
 ```
 
-You can reach API via: http://localhost:8000/info
+You can reach API via: http://localhost:8000/docs
 
 TODO Docker
 

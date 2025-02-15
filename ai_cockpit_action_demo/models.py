@@ -8,15 +8,18 @@ from datetime import datetime
 from typing import Optional
 
 from pydantic import BaseModel, Field
+from typing import List
 
 
-class Info(BaseModel):
-    generation_date: Optional[datetime] = Field(None, alias='generation-date')
-    systemDescription: Optional[str] = None
-    apiVersion: Optional[str] = None
-
+class Action(BaseModel):
+    id: Optional[int] = None
+    name: Optional[str] = None
+    description: Optional[str] = None
+    executions: Optional[List[Execution]] = None
 
 class Execution(BaseModel):
     id: Optional[int] = None
     name: Optional[str] = None
     status: Optional[bool] = None
+    triggeredAt: Optional[datetime] = None
+    finishedAt: Optional[datetime] = None
