@@ -38,10 +38,9 @@ jobs:
       run: |
         git config --global user.email "code@starwit.de"
         git config --global user.name "Starwit"
-        git add .
-        echo "modifications found: $modifications"
-        git commit -m "Bumping version to ${{ env.RELEASE_VERSION }}"
-        git push
+        git tag ${{ env.RELEASE_VERSION }}
+        echo "pushing tag ${{ env.RELEASE_VERSION }}"
+        git push origin tag ${{ env.RELEASE_VERSION }}
       env:
          CI: false
 
