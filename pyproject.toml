@@ -1,9 +1,10 @@
 [tool.poetry]
 name = "ai-cockpit-action-demo"
 version = "0.1.0"
-description = ""
-authors = ["ztarbug <kronprinzfriedrich@gmx.de>"]
+description = "Simple demonstrator for action execution in AI Cockpit context."
+authors = ["ztarbug <info@starwit.de>"]
 readme = "README.md"
+license = "AGPLv3"
 
 [tool.poetry.dependencies]
 python = "^3.12"
