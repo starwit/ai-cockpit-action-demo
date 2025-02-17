@@ -1,0 +1,8 @@
+
+ingress:
+  enabled: enabled
+  hosts:
+    - host: aicockpit.local
+      paths:
+        - path: /executor
+          pathType: ImplementationSpecific

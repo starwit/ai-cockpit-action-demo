@@ -1,0 +1,32 @@
+replicaCount: 1
+
+image:
+  repository: starwitorg/ai-cockpit-action-demo
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: 0.0.2
+
+app:
+  context_path: "/executor"
+  mode: EMULATED # software or GPIO hardware
+  minimum_execution_time: 10 # mininum execution time for actions
+
+service:
+  port: 8000
+
+ingress:
+  enabled: enabled
+  annotations: 
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: aic.starwit-infra.de
+      paths:
+        - path: /executor
+          pathType: ImplementationSpecific
+  tls: 
+    - secretName: aic.starwit-infra.de
+      hosts:
+        - aic.starwit-infra.de
+
+autoscaling:
+  enabled: false

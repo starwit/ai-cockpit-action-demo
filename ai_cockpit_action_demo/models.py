@@ -20,7 +20,7 @@ class Execution_status(Enum):
     FINISHED = "FINISHED"
 
 class Config():
-    contextPathBase: str = "/excecutor"
+    contextPathBase: str = "/executor"
     mode: Mode = Mode.EMULATED
     minimum_execution_time: int = 5
 

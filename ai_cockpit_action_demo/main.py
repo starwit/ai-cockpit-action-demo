@@ -34,7 +34,7 @@ async def healthcheck():
     return Response()
 
 def setup_config():
-    config.contextPathBase = os.environ.get('CONTEXT_PATH', '/excecutor')
+    config.contextPathBase = os.environ.get('CONTEXT_PATH', '/executor')
     config.mode = os.environ.get('MODE', 'EMULATED')
     config.minimum_execution_time = os.environ.get('MINIMUM_EXECUTION_TIME', 5)
     config.print()

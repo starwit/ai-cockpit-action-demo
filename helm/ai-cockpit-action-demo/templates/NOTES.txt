@@ -1,0 +1,17 @@
+Installing....
+     _        _   _               _____                     _             
+    / \   ___| |_(_) ___  _ __   | ____|_  _____  ___ _   _| |_ ___  _ __ 
+   / _ \ / __| __| |/ _ \| '_ \  |  _| \ \/ / _ \/ __| | | | __/ _ \| '__|
+  / ___ \ (__| |_| | (_) | | | | | |___ >  <  __/ (__| |_| | || (_) | |   
+ /_/   \_\___|\__|_|\___/|_| |_| |_____/_/\_\___|\___|\__,_|\__\___/|_|   
+                                                                          
+Sample action executor service.
+
+1. Get the application URL by running these commands:
+{{- if .Values.ingress.enabled }}
+{{- range $host := .Values.ingress.hosts }}
+  {{- range .paths }}
+  http{{ if $.Values.ingress.tls }}s{{ end }}://{{ $host.host }}{{ .path }}
+  {{- end }}
+{{- end }}
+{{- end }}
