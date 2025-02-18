@@ -29,10 +29,25 @@ jobs:
     - name: Install GH CLI
       uses: dev-hanz-ops/install-gh-cli-action@v0.2.0
 
+    - name: 'Setup yq'
+      uses: dcarbone/install-yq-action@v1
+
+    - name: get helm
+      uses: azure/setup-helm@v4
+
+    - name: login to Helm registry
+      run: helm registry login registry-1.docker.io -u starwit -p ${{ secrets.DOCKERHUB_TOKEN }}
+
     - name: checkout
       uses: actions/checkout@v4
       with:
         fetch-depth: '0'
+
+    - name: adapt versions in Helm chart
+      run: |
+        echo "changing versions in chart.yaml"
+        yq -y -i '.version="${{ env.RELEASE_VERSION }}"' Chart.yaml
+        yq -y -i '.appVersion="${{ env.RELEASE_VERSION }}"' Chart.yaml
 
     - name: Commit and push tag
       run: |
@@ -69,3 +84,20 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: ${{ env.DOCKERHUB_ORG }}/${{ env.IMAGE_NAME }}:${{ env.RELEASE_VERSION }}
+
+    - name: run helm update
+      working-directory: helm/ai-cockpit-action-demo
+      run: helm dep update
+
+    - name: run helm package
+      working-directory: helm
+      run: helm package ai-cockpit-action-demo
+
+    - name: get version number
+      working-directory: helm/ai-cockpit-action-demo
+      run: |
+        echo "HELM_VERSION=$(grep version: Chart.yaml | head -1 | awk '{print $2}')" >> $GITHUB_ENV
+
+    - name: run helm push
+      working-directory: application/target/helm
+      run: helm push ${{ env.IMAGE_NAME }}-chart-${{ env.HELM_VERSION }}.tgz oci://registry-1.docker.io/starwitorg
