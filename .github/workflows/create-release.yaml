@@ -46,9 +46,10 @@ jobs:
     - name: adapt versions in Helm chart
       working-directory: helm/ai-cockpit-action-demo
       run: |
+        yq --version
         echo "changing versions in chart.yaml"
-        yq -y -i '.version="${{ env.RELEASE_VERSION }}"' Chart.yaml
-        yq -y -i '.appVersion="${{ env.RELEASE_VERSION }}"' Chart.yaml
+        yq -i '.version="${{ env.RELEASE_VERSION }}"' Chart.yaml
+        yq -i '.appVersion="${{ env.RELEASE_VERSION }}"' Chart.yaml
 
     - name: Commit and push tag
       run: |
