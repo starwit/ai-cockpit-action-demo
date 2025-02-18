@@ -1,9 +1,9 @@
 apiVersion: v2
-name: ai-cockpit-action-demo
+name: ai-cockpit-action-demo-chart
 description: A Helm chart to deploy action executor demo
 
 type: application
 
-version: 0.0.3
+version: 0.0.5
 
-appVersion: 0.0.3
+appVersion: 0.0.5
