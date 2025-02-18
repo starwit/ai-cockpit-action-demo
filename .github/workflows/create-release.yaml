@@ -101,5 +101,5 @@ jobs:
         echo "HELM_VERSION=$(grep version: Chart.yaml | head -1 | awk '{print $2}')" >> $GITHUB_ENV
 
     - name: run helm push
-      working-directory: application/target/helm
+      working-directory: helm
       run: helm push ${{ env.IMAGE_NAME }}-chart-${{ env.HELM_VERSION }}.tgz oci://registry-1.docker.io/starwitorg
