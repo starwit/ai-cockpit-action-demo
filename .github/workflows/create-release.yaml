@@ -44,6 +44,7 @@ jobs:
         fetch-depth: '0'
 
     - name: adapt versions in Helm chart
+      working-directory: helm/ai-cockpit-action-demo
       run: |
         echo "changing versions in chart.yaml"
         yq -y -i '.version="${{ env.RELEASE_VERSION }}"' Chart.yaml
