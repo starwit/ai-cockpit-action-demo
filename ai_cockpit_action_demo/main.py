@@ -23,14 +23,14 @@ config.service_uri = os.environ.get('SERVICE_URI', 'http://localhost:8000')
 config.print()
 
 match config.mode:
-    case "EMULATED":
+    case Mode.EMULATED:
         executor = Executor()
-        executor.config(config)
-    case "RASPI":
+    case Mode.RASPI:
         executor = Raspi_Executor()
-        executor.config(config)
     case _:
-        print("Could not choose executor type")
+        print("Could not choose executor type - emulated")
+        executor = Executor()
+executor.config(config)
 
 app = FastAPI(
     title='Executor Service',

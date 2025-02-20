@@ -7,7 +7,7 @@ from typing import Optional
 from pydantic import BaseModel, Field
 from typing import List
 
-class Mode(Enum):
+class Mode(str, Enum):
     EMULATED = "EMULATED"
     RASPI = "RASPI"
 
