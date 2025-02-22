@@ -5,6 +5,7 @@ from typing import List
 from apscheduler.schedulers.background import BackgroundScheduler
 from fastapi import FastAPI
 from fastapi.responses import Response
+from fastapi.staticfiles import StaticFiles
 
 import os
 
@@ -39,6 +40,9 @@ app = FastAPI(
     servers=[{'url': config.service_uri}],
 )
 
+app.mount("/panel", StaticFiles(directory="static", html = True), name="static")
+
+# will run in background to finish actions
 scheduler = BackgroundScheduler()
 
 @app.get(config.contextPathBase + '/action', response_model=List[Action], description="Lists all available actions")

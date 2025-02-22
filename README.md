@@ -15,20 +15,27 @@ Service is written in Python and packaged in a Docker container. It is using Poe
 ```bash
     poetry install
     poetry shell
-    uvicorn ai_cockpit_action_demo.main:app --reload
+    export MODE=EMULATED # or RASPI software or raspberry hardware
+    export SERVICE_URI=http://ip:8000 # if you want to access from outside, default is localhost
+    python ai_cockpit_action_demo/main.py
 ```
 
-You can reach API via: http://localhost:8000/docs
+You can reach API via: http://localhost:8000/docs (or http://ip:8000/docs)
 
-TODO Docker
+Following Docker command runs executor on a Raspberry Pi (4 or newer, or you retire while waiting)
+```bash
+    docker run -it --device /dev/gpiochip0  -e MODE=RASPI -e SERVICE_URI=http://ip:8000 -p 8000:8000  --rm starwitorg/ai-cockpit-action-demo:0.0.8
+```
+
+Without hardware connection, app will run with the following command.
+```bash
+    docker run -it -e SERVICE_URI=http://ip:8000 -p 8000:8000  --rm starwitorg/ai-cockpit-action-demo:0.0.8
+```
 
 
-## How to install
+## How to install to Kubernetes
 
-TODO
-* Docker
-* Helm/Helmfile
-* Raspberry PI hardware config
+App can also be deployed to a Kubernetes cluster. Helm chart is located [here](https://hub.docker.com/r/starwitorg/ai-cockpit-action-demo-chart). See there for instructions how to deploy app.
 
 
 ## Contact & Contribution

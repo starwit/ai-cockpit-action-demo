@@ -1,0 +1,88 @@
+<html>
+
+<head>
+    <title>Executor Status</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="lib/jquery-3.7.1.min.js"></script>
+    <script>
+        let actions = {}
+        $(document).ready(function () {
+            reload_table();
+        });
+
+        function reload_table() {
+            $.getJSON('/executor/action', function(data) {
+                let table_content = [];
+                actions = data;                
+                $.each(data, function(key, val) {
+                    table_content.push('<tr id="' + key + '">');
+                    table_content.push('<td>' + val['name'] + '</td>');
+                    table_content.push('<td>' + val['description'] + '</td>');
+                    table_content.push('<td>' + val['executions'].length + '</td>');
+                    table_content.push('<td>' + '</td>'); //GPIO mapping
+                    if(val['executions'].length > 0) {
+                        table_content.push('<td> '+ eval_execution_status(val['executions']) +' </td>');    
+                    } else {
+                        table_content.push('<td> Finished </td>');
+                    }
+                    table_content.push('<td>' + '<button id="trigger_' + key + '" class="w3-btn w3-blue">Trigger</button>'  + '</td>');
+                    table_content.push('</tr>');
+                });
+                
+                $('#data_table').html(table_content.join());
+                for (i = 0; i < actions.length; i++) {
+                    $('#trigger_'+i).on('click', function(event) {
+                        var actionid = Number(event.target.id.slice(-1));
+                        actionid += 1;
+                        $.get('/executor/action/' + actionid, function(result) {
+                            console.log(result);
+                        });
+                    });
+                }
+            });
+        }
+
+        function eval_execution_status(executions) {
+            var last = executions.at(-1); // get last execution
+            if (last['status'] === 'EXECUTING') {     
+                return 'EXECUTING ' + last['triggeredAt'];
+            } else {
+                return 'Finished last at ' + last['finishedAt']
+            }          
+        }
+
+        const interval = setInterval(function() {
+            reload_table();
+          }, 5000);        
+    </script>
+</head>
+
+<body>
+    <div class="w3-padding-small w3-theme-gl4 w3-card">
+        <div class="w3-bar w3-text-theme w3-center">
+            <h1>Action Executor Status Panel</h1>
+        </div>
+    </div>
+    <table  class="w3-striped w3-centered">
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Action</td>
+                <td>Executions since start</td>
+                <td>GPIO pin</td>
+                <td>Status</td>
+                <td>Activate</td>
+            </tr>            
+        </thead>
+        <tbody id="data_table">
+
+        </tbody>
+    </table>
+</body>
+
+</html>
