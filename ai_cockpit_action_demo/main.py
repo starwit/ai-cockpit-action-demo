@@ -66,7 +66,6 @@ def startup_event():
 def do_work():
     print("roll the dice to finish executions...")
     executor.check_if_finished()
-       
 
 def main():
     import uvicorn
