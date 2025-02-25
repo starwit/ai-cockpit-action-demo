@@ -15,7 +15,6 @@ Service is written in Python and packaged in a Docker container. It is using Poe
 ```bash
     poetry install
     poetry shell
-    export MODE=EMULATED # or RASPI software or raspberry hardware
     export SERVICE_URI=http://ip:8000 # if you want to access from outside, default is localhost
     python ai_cockpit_action_demo/main.py
 ```
@@ -24,7 +23,7 @@ You can reach API via: http://localhost:8000/docs (or http://ip:8000/docs)
 
 Following Docker command runs executor on a Raspberry Pi (4 or newer, or you retire while waiting)
 ```bash
-    docker run -it --device /dev/gpiochip0  -e MODE=RASPI -e SERVICE_URI=http://ip:8000 -p 8000:8000  --rm starwitorg/ai-cockpit-action-demo:0.0.8
+    docker run -it --device /dev/gpiochip0  -e SERVICE_URI=http://ip:8000 -p 8000:8000  --rm starwitorg/ai-cockpit-action-demo:0.0.8
 ```
 
 Without hardware connection, app will run with the following command.

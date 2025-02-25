@@ -24,7 +24,7 @@
                     table_content.push('<td>' + val['name'] + '</td>');
                     table_content.push('<td>' + val['description'] + '</td>');
                     table_content.push('<td>' + val['executions'].length + '</td>');
-                    table_content.push('<td>' + '</td>'); //GPIO mapping
+                    table_content.push('<td>' + val['iopin'] + '</td>'); //GPIO mapping
                     if(val['executions'].length > 0) {
                         table_content.push('<td> '+ eval_execution_status(val['executions']) +' </td>');    
                     } else {
