@@ -7,8 +7,8 @@ import random
 from models import Execution
 from models import Execution_status
 from models import Action
-from models import Mode
-from models import Config
+from config import Mode
+from config import Config
 
 class Executor:
     minimum_execution_time: int = 5
@@ -31,7 +31,11 @@ class Executor:
             action.executions = []
             
     def config(self, config):
-        self.config = config            
+        self.config = config
+        
+    def stop_all():
+        print("Stopping all executions")
+        # TODO
 
     def execute_action(self, id):
         action = self.actions[int(id)-1]

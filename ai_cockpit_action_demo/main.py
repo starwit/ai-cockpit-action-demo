@@ -1,5 +1,4 @@
 from __future__ import annotations
-import threading
 from typing import List
 
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -7,21 +6,14 @@ from fastapi import FastAPI
 from fastapi.responses import Response
 from fastapi.staticfiles import StaticFiles
 
-import os
-
-from models import Action
-from models import Config
 from models import Mode
+from models import Action
+from config import Config
 
 from executor import Executor
 from raspi_executor.raspi_executor import Raspi_Executor
 
 config = Config()
-config.contextPathBase = os.environ.get('CONTEXT_PATH', '/executor')
-config.mode = os.environ.get('MODE', Mode.EMULATED)
-config.minimum_execution_time = os.environ.get('MINIMUM_EXECUTION_TIME', 5)
-config.service_uri = os.environ.get('SERVICE_URI', 'http://localhost:8000')
-config.print()
 
 match config.mode:
     case Mode.EMULATED:
@@ -54,6 +46,11 @@ def list_action() -> List[Action]:
 def execute_action(id) -> bool:
     return executor.execute_action(id)
 
+@app.delete(config.contextPathBase + '/action', response_model=List[Action], description="Stop all executions")
+def stop_action() -> List[Action]:
+    executor.stop_all()
+    return executor.actions
+
 @app.get(config.contextPathBase + "/healthcheck")
 async def healthcheck():
     return Response()
@@ -65,8 +62,8 @@ def startup_event():
 
 def do_work():
     print("roll the dice to finish executions...")
-    executor.check_if_finished()
-
+    executor.check_if_finished() 
+    
 def main():
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
