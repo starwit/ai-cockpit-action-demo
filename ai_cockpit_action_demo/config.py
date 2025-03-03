@@ -12,7 +12,7 @@ class Config():
     
     def __init__(self):
         self.contextPathBase = os.environ.get('CONTEXT_PATH', '/executor')
-        self.minimum_execution_time = os.environ.get('MINIMUM_EXECUTION_TIME', 5)
+        self.minimum_execution_time = int(os.environ.get('MINIMUM_EXECUTION_TIME', 5))
         self.service_uri = os.environ.get('SERVICE_URI', 'http://localhost:8000')
         self.print()    
         

@@ -7,12 +7,9 @@ import random
 from models import Execution
 from models import Execution_status
 from models import Action
-from config import Mode
 from config import Config
 
 class Executor:
-    minimum_execution_time: int = 5
-    mode: Mode = Mode.EMULATED
     config: Config = None
 
     actions = [
@@ -33,9 +30,27 @@ class Executor:
     def config(self, config):
         self.config = config
         
-    def stop_all():
+        
+    def stop_action(self, id):
+        action = self.actions[int(id)-1]
+        if action.executions:
+            execution = action.executions[-1]
+            if execution.status == Execution_status.EXECUTING:
+                execution.status = Execution_status.FINISHED
+                execution.finishedAt = datetime.now()
+                self.deactivate(action)
+
+        return action
+    
+    def stop_all(self):
         print("Stopping all executions")
-        # TODO
+        for action in self.actions:
+            if action.executions:
+                execution = action.executions[-1]
+                if execution.status == Execution_status.EXECUTING:
+                    execution.status = Execution_status.FINISHED
+                    execution.finishedAt = datetime.now()
+                    self.deactivate(action)
 
     def execute_action(self, id):
         action = self.actions[int(id)-1]
@@ -75,7 +90,7 @@ class Executor:
                 execution = action.executions[-1]
                 if execution.status == Execution_status.EXECUTING:
                     runtime = datetime.now() - execution.triggeredAt
-                    if runtime.total_seconds() > self.minimum_execution_time and bool(random.getrandbits(1)):
+                    if runtime.total_seconds() > self.config.minimum_execution_time and bool(random.getrandbits(1)):
                         # action is finished
                         execution.status = Execution_status.FINISHED
                         execution.finishedAt = datetime.now()
@@ -86,3 +101,6 @@ class Executor:
         
     def deactivate(self, action):
         pass
+    
+    def get_action(self, id):
+        return self.actions[int(id)-1]
