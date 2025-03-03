@@ -15,7 +15,7 @@ Service is written in Python and packaged in a Docker container. It is using Poe
 ```bash
     poetry install
     poetry shell
-    export SERVICE_URI=http://ip:8000 # if you want to access from outside, default is localhost
+    export SERVICE_URI=http://ip:8000 # if you want to access swagger ui from outside, default is localhost
     python ai_cockpit_action_demo/main.py
 ```
 

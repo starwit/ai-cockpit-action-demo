@@ -27,10 +27,6 @@ class Raspi_Executor(Executor):
             lgpio.gpio_claim_output(self.handle, action.iopin)
             print("switching output " + str(action.iopin) + " to zero")
             lgpio.gpio_write(self.handle, action.iopin, 1)
-            
-    def stop_all():
-        print("Stopping all executions")
-        # TODO
     
     def activate(self, action):
         print("switching output " + str(action.iopin) + " to ON")

@@ -46,10 +46,20 @@ def list_action() -> List[Action]:
 def execute_action(id) -> bool:
     return executor.execute_action(id)
 
+@app.delete(config.contextPathBase + '/action/{id}', response_model=Action, description="Stop an executions")
+def stop_action(id) -> Action:
+    executor.stop_action(id)
+    return executor.get_action(id)
+
 @app.delete(config.contextPathBase + '/action', response_model=List[Action], description="Stop all executions")
-def stop_action() -> List[Action]:
+def stop_actions() -> List[Action]:
     executor.stop_all()
     return executor.actions
+
+@app.post(config.contextPathBase + '/config/time/{span}', description="Sets minimum execution time")
+def set_execution_time(span) -> bool:
+    config.minimum_execution_time = int(span)
+    return True
 
 @app.get(config.contextPathBase + "/healthcheck")
 async def healthcheck():
