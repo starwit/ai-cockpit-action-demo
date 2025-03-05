@@ -1,8 +1,8 @@
-
 from __future__ import annotations
 from typing import Optional
 from datetime import datetime
 import random
+import json
 
 from models import Execution
 from models import Execution_status
@@ -27,8 +27,9 @@ class Executor:
         for action in self.actions:
             action.executions = []
             
-    def config(self, config):
+    def set_config(self, config):
         self.config = config
+        self.import_action_mapping()
         
         
     def stop_action(self, id):
@@ -104,3 +105,11 @@ class Executor:
     
     def get_action(self, id):
         return self.actions[int(id)-1]
+    
+    def import_action_mapping(self):
+        print("Import action mapping from " + self.config.mapping_import_file)
+        f = open(self.config.mapping_import_file)
+        data = json.load(f)
+        self.actions = []
+        for action in data:
+            self.actions.append(Action(id=action["id"], iopin=action["iopin"], name=action["name"], description=action["description"], executions=[]))

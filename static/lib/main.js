@@ -10,8 +10,7 @@ $(document).ready(function () {
         $.ajax({
             url: '/executor/action',
             type: 'DELETE',
-            success: function(result) {
-                console.log(result);            
+            success: function(result) {         
             }
         });
     });
@@ -21,8 +20,7 @@ $(document).ready(function () {
         $.ajax({
             url: '/executor/config/time/' + execution_time,
             type: 'POST',
-            success: function(result) {
-                console.log(result);            
+            success: function(result) {          
             }
         });
     });    
@@ -61,7 +59,6 @@ function reload_table() {
                 var actionid = Number(event.target.id.slice(-1));
                 actionid += 1;
                 $.get('/executor/action/' + actionid, function(result) {
-                    console.log(result);
                 });
             });
 
@@ -71,8 +68,7 @@ function reload_table() {
                 $.ajax({
                     url: '/executor/action/'+actionid,
                     type: 'DELETE',
-                    success: function(result) {
-                        console.log(result);            
+                    success: function(result) {           
                     }
                 });
             });

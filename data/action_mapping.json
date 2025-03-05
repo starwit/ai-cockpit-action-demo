@@ -1,0 +1,58 @@
+[
+    {
+        "id": 1,
+        "name": "Police patrol 01",
+        "description": "Send police crew to investigate",
+        "iopin": 17,
+        "executions": []
+    },
+    {
+        "id": 2,
+        "name": "Medic Team",
+        "description": "Dispatch first responders",
+        "iopin": 27,
+        "executions": []
+    },
+    {
+        "id": 3,
+        "name": "Firefighters",
+        "description": "Dispatch firefighters",
+        "iopin": 22,
+        "executions": []
+    },
+    {
+        "id": 4,
+        "name": "Tow service",
+        "description": "Dispatch tow service, to remove disabled vehicles",
+        "iopin": 23,
+        "executions": []
+    },
+    {
+        "id": 5,
+        "name": "Road Maintenance",
+        "description": "Dispatch road maintenance team",
+        "iopin": 24,
+        "executions": []
+    },
+    {
+        "id": 6,
+        "name": "Stop Traffic",
+        "description": "Reschedule traffic lights, to stop traffic from flowing into a certain area.",
+        "iopin": 5,
+        "executions": []
+    },
+    {
+        "id": 7,    
+        "name": "Send V2X message",
+        "description": "Send V2X message to proliferate data to automatic/semi-automatic vehicles",
+        "iopin": 6,
+        "executions": []
+    },
+    {
+        "id": 8,
+        "name": "Broadcast Message",
+        "description": "Send public broadcast message to inform citizens",
+        "iopin": 13,
+        "executions": []
+    }
+]

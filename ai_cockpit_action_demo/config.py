@@ -9,11 +9,13 @@ class Config():
     contextPathBase: str = "/executor"
     mode: Mode = Mode.EMULATED
     minimum_execution_time: int = 5
+    mapping_import_file: str = "data/action_mapping.json"
     
     def __init__(self):
         self.contextPathBase = os.environ.get('CONTEXT_PATH', '/executor')
         self.minimum_execution_time = int(os.environ.get('MINIMUM_EXECUTION_TIME', 5))
         self.service_uri = os.environ.get('SERVICE_URI', 'http://localhost:8000')
+        self.mapping_import_file = os.environ.get('MAPPING_IMPORT_FILE', 'data/action_mapping.json')
         self.print()    
         
         print("Test if GPIO device is present")
@@ -28,6 +30,7 @@ class Config():
         print("contextPathBase: " + self.contextPathBase)
         print("mode: " + str(self.mode))
         print("minimum_execution_time: " + str(self.minimum_execution_time))
+        print("mapping file " + self.mapping_import_file)
         
     def is_raspberry_pi(self):
         try:
