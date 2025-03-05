@@ -23,7 +23,7 @@ match config.mode:
     case _:
         print("Could not choose executor type - emulated")
         executor = Executor()
-executor.config(config)
+executor.set_config(config)
 
 app = FastAPI(
     title='Executor Service',
