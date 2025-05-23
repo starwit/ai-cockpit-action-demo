@@ -39,7 +39,7 @@ App can also be deployed to a Kubernetes cluster. Helm chart is located [here](h
 
 ## Contact & Contribution
 
-The “KI-Cockpit” (AI Cockpit) project was funded by the Federal Ministry of Labor and Social Affairs and executed by the nexus Institute, Aalen University, the University of Stuttgart, Chemistree, Caritas Dortmund & Starwit Technologies with the support of Awesome Technologies Innovationslabor, the Institute for Innovation and Technology (iit) at VDI/VDE Innovation + Technik and keytec.
+The “KI-Cockpit” (AI Cockpit) project was funded by the Federal Ministry of Labor and Social Affairs.
 
 <img src="foerderlogo.png" alt="BMAS Logo" style="width:33%; height:auto;">
 
